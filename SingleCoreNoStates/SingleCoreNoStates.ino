@@ -10,11 +10,11 @@ uint32_t timer_cam = millis();
 void setup() { 
   Serial.begin(9600);
   SetupGPS();
-  SetupAntena();    
-  SetupBNO(); 
-  SetupBMP();
-  SetupSD();      
-  setup_complete();
+  // SetupAntena();    
+  // SetupBNO(); 
+  // SetupBMP();
+  // SetupSD();      
+  // setup_complete();
 
   // SPI speedup
   spi_set_baudrate(spi0, 60000000);
@@ -31,30 +31,30 @@ void loop() {
     
     measure();        
     
-    // Cam take pic
-    if (millis() - timer_cam > CAM_FREQ) {
-      timer_cam = millis();
+    // // Cam take pic
+    // if (millis() - timer_cam > CAM_FREQ) {
+    //   timer_cam = millis();
 
-      // Image filename setup "milisecond.jpg"
-      char image_filename[15];
-      snprintf(image_filename, 15, "%u.jpg", timer_data);
+    //   // Image filename setup "milisecond.jpg"
+    //   char image_filename[15];
+    //   snprintf(image_filename, 15, "%u.jpg", timer_data);
 
-      if (!CaptureSD(camera, image_filename)) {
-        DataSerial.println("CAM_CAPTURE_FAIL");
-      }
-      else {
-        imageTaken = true;
-      }
-    }
+    //   if (!CaptureSD(camera, image_filename)) {
+    //     DataSerial.println("CAM_CAPTURE_FAIL");
+    //   }
+    //   else {
+    //     imageTaken = true;
+    //   }
+    // }
     
-    // DATALOG     
+    // // DATALOG     
     PrintAntena();
-    PrintSD(imageTaken);        
+    // PrintSD(imageTaken);        
   }
 }
 void setup1() {
   delay(10000);
-  PlayBuzzer(300);
+  // PlayBuzzer(300);
 }
 
 void loop1() {

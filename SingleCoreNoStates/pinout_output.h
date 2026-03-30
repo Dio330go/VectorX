@@ -1,11 +1,11 @@
 #include <SPI.h>
-#include <SD.h>
+// #include <SD.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BMP3XX.h>
 #include <Adafruit_GPS.h>
-#include <Adafruit_BNO055.h>
-#include <utility/imumaths.h>
+// #include <Adafruit_BNO055.h>
+// #include <utility/imumaths.h> // BNO055 basicamente nao e necessario
 #include <pico/time.h>
 
 #define DebugStatus false
@@ -128,75 +128,75 @@ void PrintAntena() {
   }
   if (data.lon_c == 'W') {
     longitude = - data.lon;
-  }
+//   }
   
-  // Temperature, Pressure, Altitude(BMP388), Yaw, Pitch, Roll, AccelX, AccelY, AccelZ, Latitude, Longitude, Altitude(GPS)
-  if (latitude == 0 || longitude == 0) {
-    DataSerial.printf("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,0,0,0,%.1f", 
-    data.temp, data.pressure, data.alt_bmp, 
-    data.euler[0], data.euler[1], data.euler[2],
-    data.accel[0], data.accel[1], data.accel[2],
-    data.time
-    );
-  }
-  else {
-    DataSerial.printf("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.5f,%.5f,%.1f,%.1f", 
-    data.temp, data.pressure, data.alt_bmp, 
-    data.euler[0], data.euler[1], data.euler[2],
-    data.accel[0], data.accel[1], data.accel[2],
-    latitude, longitude, data.alt_gps,
-    data.time
-    );
-  }
-  DataSerial.println();
-}
+//   // Temperature, Pressure, Altitude(BMP388), Yaw, Pitch, Roll, AccelX, AccelY, AccelZ, Latitude, Longitude, Altitude(GPS)
+//   if (latitude == 0 || longitude == 0) {
+//     DataSerial.printf("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,0,0,0,%.1f", 
+//     data.temp, data.pressure, data.alt_bmp, 
+//     data.euler[0], data.euler[1], data.euler[2],
+//     data.accel[0], data.accel[1], data.accel[2],
+//     data.time
+//     );
+//   }
+//   else {
+//     DataSerial.printf("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.5f,%.5f,%.1f,%.1f", 
+//     data.temp, data.pressure, data.alt_bmp, 
+//     data.euler[0], data.euler[1], data.euler[2],
+//     data.accel[0], data.accel[1], data.accel[2],
+//     latitude, longitude, data.alt_gps,
+//     data.time
+//     );
+//   }
+//   DataSerial.println();
+// }
 
-void PrintSD(bool image) {
-  File log = SD.open("datalog.csv", FILE_WRITE);
+// void PrintSD(bool image) {
+//   File log = SD.open("datalog.csv", FILE_WRITE);
 
-  if (log) {
-    // GPS data shortening
-    float latitude = 0;
-    float longitude = 0;
+//   if (log) {
+//     // GPS data shortening
+//     float latitude = 0;
+//     float longitude = 0;
 
-    // Latitude
-    if (data.lat_c == 'N') {
-      latitude = data.lat;
-    }
-    if (data.lat_c == 'S') {
-      latitude = - data.lat;
-    }
+//     // Latitude
+//     if (data.lat_c == 'N') {
+//       latitude = data.lat;
+//     }
+//     if (data.lat_c == 'S') {
+//       latitude = - data.lat;
+//     }
 
-    // Longitude
-    if (data.lon_c == 'E') {
-      longitude = data.lon;
-    }
-    if (data.lon_c == 'W') {
-      longitude = - data.lon;
-    }
+//     // Longitude
+//     if (data.lon_c == 'E') {
+//       longitude = data.lon;
+//     }
+//     if (data.lon_c == 'W') {
+//       longitude = - data.lon;
+//     }
     
-    // Main data output
-    char csvLine[512];
-    int csvSize = snprintf(csvLine, 200, "%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.5f,%.5f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f", 
-      data.time, data.temp, data.pressure, data.alt_bmp, 
-      data.euler[0], data.euler[1], data.euler[2],
-      data.accel[0], data.accel[1], data.accel[2],
-      latitude, longitude, data.alt_gps,
-      data.linaccel[0], data.linaccel[1], data.linaccel[2],
-      data.magnetic[0], data.magnetic[1], data.magnetic[2],
-      data.gyro[0], data.gyro[1], data.gyro[2],
-      data.gravity[0], data.gravity[1], data.gravity[2]
-    );
-    log.write(csvLine, csvSize);
+//     // Main data output
+//     char csvLine[512];
+//     int csvSize = snprintf(csvLine, 200, "%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.5f,%.5f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f", 
+//       data.time, data.temp, data.pressure, data.alt_bmp, 
+//       data.euler[0], data.euler[1], data.euler[2],
+//       data.accel[0], data.accel[1], data.accel[2],
+//       latitude, longitude, data.alt_gps,
+//       data.linaccel[0], data.linaccel[1], data.linaccel[2],
+//       data.magnetic[0], data.magnetic[1], data.magnetic[2],
+//       data.gyro[0], data.gyro[1], data.gyro[2],
+//       data.gravity[0], data.gravity[1], data.gravity[2]
+//     );
+//     log.write(csvLine, csvSize);
 
-    // Image State
-    if (image) log.printf(",imgTaken");
+//     // Image State
+//     if (image) log.printf(",imgTaken");
     
-    // Endline
-    log.println();
-    log.close();
-  } 
-  else {
-    DataSerial.println("FOPEN_FAIL");    
-  }  
-}
+//     // Endline
+//     log.println();
+//     log.close();
+//   } 
+//   else {
+//     DataSerial.println("FOPEN_FAIL");    
+//   }  
+// }
