@@ -4,15 +4,21 @@
 #include <Adafruit_ICM20948.h>
 #include <Adafruit_Sensor.h>
 #include <Wire.h>
+#include <MadgwickAHRS.h>
+
+Madgwick filter;
 
 Adafruit_ICM20948 icm;
 uint16_t measurement_delay_us = 65535; // Delay between measurements for testing
 // For SPI mode, we need a CS pin
-#define ICM_CS 10
+// #define ICM_CS 10
 // For software-SPI mode we need SCK/MOSI/MISO pins
-#define ICM_SCK 13
-#define ICM_MISO 12
-#define ICM_MOSI 11
+// #define ICM_SCK 13
+// #define ICM_MISO 12
+// #define ICM_MOSI 11
+
+float mag_min[3] = {1000, 1000, 1000};
+float mag_max[3] = {-1000, -1000, -1000};
 
 void setup(void) {
   Serial.begin(115200);
@@ -67,8 +73,9 @@ void setup(void) {
     break;
   }
 
+  // Eu não sei oq q isto faz
   //  icm.setAccelRateDivisor(4095);
-  uint16_t accel_divisor = icm.getAccelRateDivisor();
+  uint16_t accel_divisor = icm.getAccelRateDivisor(); 
   float accel_rate = 1125 / (1.0 + accel_divisor);
 
   Serial.print("Accelerometer data rate divisor set to: ");
@@ -76,6 +83,7 @@ void setup(void) {
   Serial.print("Accelerometer data rate (Hz) is approximately: ");
   Serial.println(accel_rate);
 
+  // Same
   //  icm.setGyroRateDivisor(255);
   uint8_t gyro_divisor = icm.getGyroRateDivisor();
   float gyro_rate = 1100 / (1.0 + gyro_divisor);
@@ -113,16 +121,13 @@ void setup(void) {
 
 void loop() {
 
+
   //  /* Get a new normalized sensor event */
   sensors_event_t accel;
   sensors_event_t gyro;
   sensors_event_t mag;
   sensors_event_t temp;
   icm.getEvent(&accel, &gyro, &temp, &mag);
-
-  Serial.print("\t\tTemperature ");
-  Serial.print(temp.temperature);
-  Serial.println(" deg C");
 
   /* Display the results (acceleration is measured in m/s^2) */
   Serial.print("\t\tAccel X: ");
@@ -133,12 +138,18 @@ void loop() {
   Serial.print(accel.acceleration.z);
   Serial.println(" m/s^2 ");
 
+  // Acertar com a calibracao
+  float mx = mag.magnetic.x;
+  float my = mag.magnetic.y;
+  float mz = mag.magnetic.z;
+
+
   Serial.print("\t\tMag X: ");
-  Serial.print(mag.magnetic.x);
+  Serial.print(mx);
   Serial.print(" \tY: ");
-  Serial.print(mag.magnetic.y);
+  Serial.print(my);
   Serial.print(" \tZ: ");
-  Serial.print(mag.magnetic.z);
+  Serial.print(mz);
   Serial.println(" uT");
 
   /* Display the results (acceleration is measured in m/s^2) */
