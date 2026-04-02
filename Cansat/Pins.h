@@ -13,6 +13,6 @@
 #define ICM_SDA 20     // 26
 #define ICM_SCL 21     // 27
 
-#define LORA_CS_PIN 13
-#define LORA_RST_PIN 14
-#define LORA_IRQ_PIN 16
+// #define LORA_CS_PIN 13
+// #define LORA_RST_PIN 14
+// #define LORA_IRQ_PIN 16

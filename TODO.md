@@ -1,0 +1,1 @@
+updateBMP() error handler
