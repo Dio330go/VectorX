@@ -9,6 +9,14 @@ struct SensorData {
   float accel1_y = 0.0;
   float accel1_z = 0.0;
 
+  float gyro1_x = 0.0;
+  float gyro1_y = 0.0;
+  float gyro1_z = 0.0;
+
+  float mag1_x = 0.0;
+  float mag1_y = 0.0;
+  float mag1_z = 0.0;
+
   float accel2_x = 0.0;
   float accel2_y = 0.0;
   float accel2_z = 0.0;
@@ -23,8 +31,8 @@ struct SensorData {
 struct SystemStatus {
   bool bmp_ok = false;
   bool gps_ok = false;
-  bool imu1_ok = false;
-  bool imu2_ok = false;
+  bool lsm_ok = false;
+  bool icm_ok = false;
   bool sd_ok = false;
   bool lora_ok = false;
 

@@ -10,8 +10,8 @@
 #define BMP_SDA 18     // 24
 #define BMP_SCL 19     // 25
 
-#define ICM_SDA 20     // 26
-#define ICM_SCL 21     // 27
+#define LSM_SDA 20     // 26
+#define LSM_SCL 21     // 27
 
 // #define LORA_CS_PIN 13
 // #define LORA_RST_PIN 14
