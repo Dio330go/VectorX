@@ -9,8 +9,7 @@ bool initSensors() {
   // if (!initBMP()) {
   //   ok = false;
   // }
-
-  // if (!initGPS()) ok = false;
+  if (!initLogger()) ok = false;
   if (!initLSM()) ok = false;
 
   return ok;
@@ -19,6 +18,6 @@ bool initSensors() {
 void updateSensors() {
   // updateBMP();
 
-  // updateGPS();
   updateLSM();
+  logData();
 }
