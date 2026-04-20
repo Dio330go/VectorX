@@ -1,23 +1,24 @@
 #include "Sensors.h"
 
-// #include "GPS.h"
-// #include "IMU.h"
-
 bool initSensors() {
   bool ok = true;
 
-  // if (!initBMP()) {
-  //   ok = false;
-  // }
-  if (!initLogger()) ok = false;
-  if (!initLSM()) ok = false;
+  // if (!initBMP()) ok = false;
+  // if (!initLogger()) ok = false;
+  // if (!initLSM()) ok = false;
+  // if (!initICM()) ok = false;
+  // if (!initGPS()) ok = false;
+  if (!initTelemetry()) ok = false;
 
   return ok;
 }
 
 void updateSensors() {
+  // Serial.println("Sensors");
   // updateBMP();
-
-  updateLSM();
-  logData();
+  // updateLSM();
+  // updateICM();
+  // logData();
+  // updateGPS();
+  sendTelemetry();
 }

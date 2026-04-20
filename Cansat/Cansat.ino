@@ -1,11 +1,7 @@
 #include "Data.h"
 #include "Sensors.h"
 #include "Constants.h"
-// #include "State.h"
 // #include "Mission.h"
-// #include "Telemetry.h"
-// #include "Logger.h"
-// #include "Buzzer.h"
 
 SensorData sensors;
 SystemStatus status;
@@ -22,20 +18,36 @@ void setup() {
   unsigned long start = millis();
   while (!Serial && millis() - start < 3000) {}
 
+  Serial.println("Initialized");
 
   if (!initSensors()) {
     Serial.println("Something failed!");
     while (1){};
   }
-  Serial.println("Initialized");
-
 }
 
 void loop() {
+  // Serial.println("ax,ay,az,gx,gy,gz,mx,my,mz");
+  // Serial.print(sensors.accel1_x);
+  // Serial.print(",");  
+  // Serial.print(sensors.accel1_y);
+  // Serial.print(",");
+  // Serial.print(sensors.accel1_z);
+  // Serial.print(",");
+
+  // Serial.print(sensors.gyro1_x);
+  // Serial.print(",");
+  // Serial.print(sensors.gyro1_y);
+  // Serial.print(",");
+  // Serial.print(sensors.gyro1_z);
+  // Serial.print(",");
+
+  // Serial.print(sensors.mag1_x);
+  // Serial.print(",");
+  // Serial.print(sensors.mag1_y);
+  // Serial.print(",");
+  // Serial.println(sensors.mag1_z);
   updateSensors();
 
-  // Serial.print("Altitude: ");
-  // Serial.println(sensors.altitude);
-
-  delay(20);
+  delay(3000);
 }

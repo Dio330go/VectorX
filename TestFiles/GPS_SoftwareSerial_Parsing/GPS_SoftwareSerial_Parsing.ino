@@ -1,21 +1,6 @@
-// Test code for Adafruit GPS modules using MTK3329/MTK3339 driver
-//
-// This code shows how to listen to the GPS module in an interrupt
-// which allows the program to have more 'freedom' - just parse
-// when a new NMEA sentence is available! Then access data when
-// desired.
-//
-// Tested and works great with the Adafruit Ultimate GPS module
-// using MTK33x9 chipset
-//    ------> http://www.adafruit.com/products/746
-// Pick one up today at the Adafruit electronics shop
-// and help support open source hardware & software! -ada
-
 #include <Adafruit_GPS.h>
 #include <SoftwareSerial.h>
 
-// Connect the GPS Power pin to 5V
-// Connect the GPS Ground pin to ground
 // Connect the GPS TX (transmit) pin to Digital 17
 // Connect the GPS RX (receive) pin to Digital 16
 
