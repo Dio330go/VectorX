@@ -9,13 +9,9 @@ struct SensorData {
   float accel1_y = 0.0;
   float accel1_z = 0.0;
 
-  float gyro1_x = 0.0;
-  float gyro1_y = 0.0;
-  float gyro1_z = 0.0;
-
-  float mag1_x = 0.0;
-  float mag1_y = 0.0;
-  float mag1_z = 0.0;
+  float roll1 = 0.0;
+  float pitch1 = 0.0;
+  float yaw1 = 0.0;
 
   float accel2_x = 0.0;
   float accel2_y = 0.0;
@@ -33,7 +29,7 @@ struct SensorData {
   double gps_lng = 0.0;
   float gps_alt = 0.0;
   int gps_satellites = 0;
-  bool gps_fix = true;
+  bool gps_fix = false;
 };
 
 struct SystemStatus {

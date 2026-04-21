@@ -27,27 +27,20 @@ void setup() {
 }
 
 void loop() {
-  // Serial.println("ax,ay,az,gx,gy,gz,mx,my,mz");
+  // Serial.print("Ax = ");
   // Serial.print(sensors.accel1_x);
-  // Serial.print(",");  
+  // Serial.print("    Ay = ");
   // Serial.print(sensors.accel1_y);
-  // Serial.print(",");
-  // Serial.print(sensors.accel1_z);
-  // Serial.print(",");
+  // Serial.print("    Az = ");
+  // Serial.println(sensors.accel1_z);
 
-  // Serial.print(sensors.gyro1_x);
-  // Serial.print(",");
-  // Serial.print(sensors.gyro1_y);
-  // Serial.print(",");
-  // Serial.print(sensors.gyro1_z);
-  // Serial.print(",");
+  // Serial.print("roll = ");
+  // Serial.print(sensors.roll1);
+  // Serial.print("    pitch = ");
+  // Serial.print(sensors.pitch1);
+  // Serial.print("    yaw = ");
+  // Serial.println(sensors.yaw1);
+  // Serial.println();
 
-  // Serial.print(sensors.mag1_x);
-  // Serial.print(",");
-  // Serial.print(sensors.mag1_y);
-  // Serial.print(",");
-  // Serial.println(sensors.mag1_z);
   updateSensors();
-
-  delay(3000);
 }

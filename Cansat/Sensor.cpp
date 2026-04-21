@@ -7,8 +7,8 @@ bool initSensors() {
   // if (!initLogger()) ok = false;
   // if (!initLSM()) ok = false;
   // if (!initICM()) ok = false;
-  // if (!initGPS()) ok = false;
-  if (!initTelemetry()) ok = false;
+  if (!initGPS()) ok = false;
+  // if (!initTelemetry()) ok = false;
 
   return ok;
 }
@@ -16,9 +16,13 @@ bool initSensors() {
 void updateSensors() {
   // Serial.println("Sensors");
   // updateBMP();
-  // updateLSM();
+  // for(int i = 0; i < 100; i++)
+  // {
+  //   updateLSM();
+  //   delay(10);
+  // }
   // updateICM();
   // logData();
-  // updateGPS();
-  sendTelemetry();
+  updateGPS();
+  // sendTelemetry();
 }

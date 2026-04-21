@@ -32,25 +32,7 @@ void logData() {
   File file = SD.open("/acelerometro.csv", FILE_WRITE);
 
   if (file) {
-    file.print(sensors.accel1_x);
-    file.print(",");  
-    file.print(sensors.accel1_y);
-    file.print(",");
-    file.print(sensors.accel1_z);
-    file.print(",");
 
-    file.print(sensors.gyro1_x);
-    file.print(",");
-    file.print(sensors.gyro1_y);
-    file.print(",");
-    file.print(sensors.gyro1_z);
-    file.print(",");
-
-    file.print(sensors.mag1_x);
-    file.print(",");
-    file.print(sensors.mag1_y);
-    file.print(",");
-    file.println(sensors.mag1_z);
 
     file.close();
   }

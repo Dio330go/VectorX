@@ -46,6 +46,7 @@ void sendTelemetry() {
 
   if(transmissionState == RADIOLIB_ERR_NONE) {
     Serial.println(F("transmission finished!"));
+    Serial.println();
   } else {
     Serial.print(F("failed, code "));
     Serial.println(transmissionState);
@@ -53,7 +54,7 @@ void sendTelemetry() {
 
   radio.finishTransmit();
 
-  String msg = "Hello World! #" + String(count++);
-  Serial.print(F("[SX1278] Sending another packet ... "));
+  String msg = String(sensors.accel1_x) + ',' + String(sensors.accel1_y) + ',' + String(sensors.accel1_z) + ',' + String(sensors.roll1) + ',' + String(sensors.pitch1) + ',' + String(sensors.yaw1);
+  Serial.println(F("[SX1278] Sending another packet ... "));
   transmissionState = radio.startTransmit(msg);
 }

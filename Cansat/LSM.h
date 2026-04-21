@@ -6,12 +6,8 @@
 #include "Pins.h"
 #include "Data.h"
 
-// #include <MadgwickAHRS.h>
-
 extern Adafruit_LSM6DS3TRC lsm6ds;
 extern Adafruit_LIS3MDL lis3mdl;
 
 bool initLSM();
 void updateLSM();
-
-// Madgwick filter;
