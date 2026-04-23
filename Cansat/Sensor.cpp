@@ -22,30 +22,30 @@ bool initSensors() {
 void updateSensors() {
   if (status.gps_ok) updateGPS();
 
-  uint32_t now = micros();
+  uint32_t now = millis();
 
-  if (status.bmp_ok && now - lastBMP >= 200000) {  // example: 200 ms
+  if (status.bmp_ok && now - lastBMP >= 200) {  // example: 200 ms
     lastBMP = now;
     updateBMP();
   }
 
-  if (status.icm_ok && now - lastICM >= 10000) {   // 10 ms
+  if (status.icm_ok && now - lastICM >= 10) {   // 10 ms
     lastICM = now;
     updateICM();
   }
 
-  if (status.lsm_ok && now - lastLSM >= 10000) {   // 10 ms
+  if (status.lsm_ok && now - lastLSM >= 10) {   // 10 ms
     lastLSM = now;
     updateLSM();
   }
 
-  if (status.sd_ok && now - lastSD >= 100000) {  // example: 100 ms
-    lastSD = now;
+  if (status.sd_ok && now - lastSD >= 100) {  // example: 100 ms
     logData(now - lastSD);
+    lastSD = now;
   }
 
-  if (status.lora_ok && now - lastLoRa >= 250000) { // example: 250 ms
-    lastLoRa = now;
+  if (status.lora_ok && now - lastLoRa >= 250) { // example: 250 ms
     sendTelemetry(now - lastLoRa);
+    lastLoRa = now;
   }
 }

@@ -68,7 +68,7 @@ void setFlag() {
   transmittedFlag = true;
 }
 
-bool initTelemetry(int ms) {
+bool initTelemetry() {
   Serial.begin(9600);
 
   SPI.setSCK(LORA_SCK);
