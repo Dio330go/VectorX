@@ -57,15 +57,32 @@ void setup() {
 void loop() {
   if(receivedFlag) {
     receivedFlag = false;
+    
+    uint8_t packet[16];
+    int state = radio.readData(packet, 16);
+    
+    uint16_t pressure = (packet[0] << 8) | packet[1];
+    float pressure_f = pressure / 100.0;
 
-    String str;
-    int state = radio.readData(str);
+    int8_t temp = (int8_t)packet[2];
+    float temp_f = temp / 2.0;
+
+    int16_t ax = (packet[3] << 8) | packet[4];
+    int16_t ay = (packet[5] << 8) | packet[6];
+    int16_t az = (packet[7] << 8) | packet[8];
+
+    int8_t angX = (int8_t)packet[9];
+    int8_t angY = (int8_t)packet[10];
+    int8_t angZ = (int8_t)packet[11];
+
+    int16_t gpsX = (packet[12] << 8) | packet[13];
+    int16_t gpsY = (packet[14] << 8) | packet[15];
 
     if(state == RADIOLIB_ERR_NONE) {
       Serial.println(F("[SX1278] Received packet!"));
 
-      Serial.print(F("[SX1278] Data:\t\t"));
-      Serial.println(str);
+      // Serial.print(F("[SX1278] Data:\t\t"));
+      // Serial.println(str);
 
       Serial.print(F("[SX1278] RSSI:\t\t"));
       Serial.print(radio.getRSSI());
