@@ -73,6 +73,8 @@ bool initTelemetry() {
 
   Serial.print(F("[SX1278] Initializing ... "));
   radio.setFrequency(434.450);
+  radio.setSpreadingFactor(7);
+  radio.setCodingRate(5);
   int state = radio.begin();
   if(state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));

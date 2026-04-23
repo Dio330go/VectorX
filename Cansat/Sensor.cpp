@@ -39,12 +39,12 @@ void updateSensors() {
     updateLSM();
   }
 
-  if (status.sd_ok && now - lastSD >= 1000000) {  // example: 1 s
+  if (status.sd_ok && now - lastSD >= 100000) {  // example: 100 ms
     lastSD = now;
     logData();
   }
 
-  if (status.lora_ok && now - lastLoRa >= 1000000) { // example: 1 s
+  if (status.lora_ok && now - lastLoRa >= 100000) { // example: 100 ms
     lastLoRa = now;
     sendTelemetry();
   }
