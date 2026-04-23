@@ -5,4 +5,4 @@
 #include "Data.h"
 
 bool initLogger();
-void logData();
+void logData(int ms);

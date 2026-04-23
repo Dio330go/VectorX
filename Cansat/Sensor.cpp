@@ -41,11 +41,11 @@ void updateSensors() {
 
   if (status.sd_ok && now - lastSD >= 100000) {  // example: 100 ms
     lastSD = now;
-    logData();
+    logData(now - lastSD);
   }
 
-  if (status.lora_ok && now - lastLoRa >= 100000) { // example: 100 ms
+  if (status.lora_ok && now - lastLoRa >= 250000) { // example: 250 ms
     lastLoRa = now;
-    sendTelemetry();
+    sendTelemetry(now - lastLoRa);
   }
 }

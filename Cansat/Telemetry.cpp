@@ -19,7 +19,7 @@ float gpsToOffsetY(float lat) {
     return (lat - LAUNCH_LAT) * 6371000.0 * (PI / 180.0);
 }
 
-void packTelemetry(uint8_t* packet) {
+void packTelemetry(uint8_t* packet, int ms) {
   uint16_t pressure = (uint16_t)((SEALEVELPRESSURE_HPA - sensors.pressure) * 100 + 0.5);
   uint8_t temp       = (uint8_t)(sensors.temperature * 5 + 0.5);
 
@@ -33,6 +33,8 @@ void packTelemetry(uint8_t* packet) {
 
   int16_t gpsX = (int16_t)(gpsToOffsetX(sensors.gps_lng) * 10);
   int16_t gpsY = (int16_t)(gpsToOffsetY(sensors.gps_lat) * 10);
+
+  int16_t mili = (int16_t)(ms);
 
   packet[0] = (pressure >> 8) & 0xFF;
   packet[1] = pressure & 0xFF;
@@ -57,13 +59,16 @@ void packTelemetry(uint8_t* packet) {
 
   packet[14] = (gpsY >> 8) & 0xFF;
   packet[15] = gpsY & 0xFF;
+
+  packet[16] = (mili >> 8) & 0xFF;
+  packet[17] = mili & 0xFF;
 }
 
 void setFlag() {
   transmittedFlag = true;
 }
 
-bool initTelemetry() {
+bool initTelemetry(int ms) {
   Serial.begin(9600);
 
   SPI.setSCK(LORA_SCK);
@@ -72,9 +77,6 @@ bool initTelemetry() {
   SPI.begin();
 
   Serial.print(F("[SX1278] Initializing ... "));
-  radio.setFrequency(434.450);
-  radio.setSpreadingFactor(7);
-  radio.setCodingRate(5);
   int state = radio.begin();
   if(state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
@@ -84,16 +86,19 @@ bool initTelemetry() {
     return false;
   }
 
+  radio.setFrequency(434.450);
+  radio.setSpreadingFactor(7);
+  radio.setCodingRate(5);
   radio.setPacketSentAction(setFlag);
 
   Serial.print(F("[SX1278] Sending first packet ... "));
-  uint8_t packet[16] = {};
+  uint8_t packet[18] = {};
   transmissionState = radio.startTransmit(packet, 18);
   status.lora_ok = true;
   return true;
 }
 
-void sendTelemetry() {
+void sendTelemetry(int ms) {
   if(!transmittedFlag) {
     return;
   }
@@ -110,8 +115,8 @@ void sendTelemetry() {
 
   radio.finishTransmit();
 
-  uint8_t packet[16];
-  packTelemetry(packet);
+  uint8_t packet[18];
+  packTelemetry(packet, ms);
 
   Serial.println(F("[SX1278] Sending another packet ... "));
   transmissionState = radio.transmit(packet, 18);

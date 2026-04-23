@@ -28,7 +28,7 @@ bool initLogger() {
   return true;
 }
 
-void logData() {
+void logData(int ms) {
   File data = SD.open("/data.csv", FILE_WRITE);
 
   if (data) {
@@ -54,6 +54,8 @@ void logData() {
 
     data.print(sensors.gps_lat, 6); data.print(",");
     data.print(sensors.gps_lng, 6); data.print(",");
+
+    data.print(ms); data.print(",");
 
     data.println(sensors.gps_fix ? 1 : 0); // bool as 0/1
     data.close();

@@ -4,4 +4,4 @@
 #include "Data.h"
 
 bool initTelemetry();
-void sendTelemetry();
+void sendTelemetry(int ms);

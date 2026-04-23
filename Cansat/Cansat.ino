@@ -28,6 +28,8 @@ void setup() {
     if (!status.gps_ok) Serial.println("GPS Wrong");
     if (!status.lora_ok) Serial.println("Lora Wrong");
   }
+
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void loop() {
