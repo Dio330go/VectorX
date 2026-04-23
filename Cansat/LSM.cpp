@@ -115,7 +115,7 @@ bool initLSM() {
 
   FusionAhrsSetSettings(&ahrs, &settings);
 
-  // calibrateMag();
+  calibrateMag();
   status.lsm_ok = true;
   return true;
 }

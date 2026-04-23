@@ -15,12 +15,12 @@ bool initLogger() {
     return false;
   }
 
-  SD.remove("/acelerometro.csv");
+  SD.remove("/data.csv");
 
-  File file = SD.open("/acelerometro.csv", FILE_WRITE);
+  File file = SD.open("/data.csv", FILE_WRITE);
 
   if (file) {
-    file.println("ax,ay,az,gx,gy,gz,mx,my,mz");
+    file.println("pressure,temperature,altitude,accel1_x,accel1_y,accel1_z,roll1,pitch1,yaw1,accel2_x,accel2_y,accel2_z,roll2,pitch2,yaw2,gps_lat,gps_lng,gps_fix");
     file.close();
   }
 
@@ -29,11 +29,33 @@ bool initLogger() {
 }
 
 void logData() {
-  File file = SD.open("/acelerometro.csv", FILE_WRITE);
+  File data = SD.open("/data.csv", FILE_WRITE);
 
-  if (file) {
+  if (data) {
+    data.print(sensors.pressure); data.print(",");
+    data.print(sensors.temperature); data.print(",");
+    data.print(sensors.altitude); data.print(",");
 
+    data.print(sensors.accel1_x); data.print(",");
+    data.print(sensors.accel1_y); data.print(",");
+    data.print(sensors.accel1_z); data.print(",");
 
-    file.close();
+    data.print(sensors.roll1); data.print(",");
+    data.print(sensors.pitch1); data.print(",");
+    data.print(sensors.yaw1); data.print(",");
+
+    data.print(sensors.accel2_x); data.print(",");
+    data.print(sensors.accel2_y); data.print(",");
+    data.print(sensors.accel2_z); data.print(",");
+
+    data.print(sensors.roll2); data.print(",");
+    data.print(sensors.pitch2); data.print(",");
+    data.print(sensors.yaw2); data.print(",");
+
+    data.print(sensors.gps_lat, 6); data.print(",");
+    data.print(sensors.gps_lng, 6); data.print(",");
+
+    data.println(sensors.gps_fix ? 1 : 0); // bool as 0/1
+    data.close();
   }
 }

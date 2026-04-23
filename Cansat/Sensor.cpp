@@ -1,5 +1,11 @@
 #include "Sensors.h"
 
+uint32_t lastLSM = 0;
+uint32_t lastICM = 0;
+uint32_t lastLoRa = 0;
+uint32_t lastBMP = 0;
+uint32_t lastSD = 0;
+
 bool initSensors() {
   bool ok = true;
 
@@ -14,21 +20,32 @@ bool initSensors() {
 }
 
 void updateSensors() {
-  for(int i = 0; i < 3; i++)
-  {
-    if(status.bmp_ok) updateBMP();
-    for(int i = 0; i < 100; i++)
-    {
-      if(status.lsm_ok) updateLSM();
-      if(status.icm_ok) updateICM();z
-      delay(10);
-      for(int i = 0; i < 10; i++)
-      {
-        if(status.gps_ok) updateGPS();
-        delay(1);
-      }
-    }
+  if (status.gps_ok) updateGPS();
+
+  uint32_t now = micros();
+
+  if (status.bmp_ok && now - lastBMP >= 200000) {  // example: 200 ms
+    lastBMP = now;
+    updateBMP();
   }
-  if(status.lora_ok) logData();
-  if(status.lora_ok) sendTelemetry();
+
+  if (status.icm_ok && now - lastICM >= 10000) {   // 10 ms
+    lastICM = now;
+    updateICM();
+  }
+
+  if (status.lsm_ok && now - lastLSM >= 10000) {   // 10 ms
+    lastLSM = now;
+    updateLSM();
+  }
+
+  if (status.sd_ok && now - lastSD >= 1000000) {  // example: 1 s
+    lastSD = now;
+    logData();
+  }
+
+  if (status.lora_ok && now - lastLoRa >= 1000000) { // example: 1 s
+    lastLoRa = now;
+    sendTelemetry();
+  }
 }
