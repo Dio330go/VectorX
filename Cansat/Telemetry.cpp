@@ -88,7 +88,7 @@ bool initTelemetry() {
 
   Serial.print(F("[SX1278] Sending first packet ... "));
   uint8_t packet[16] = {};
-  transmissionState = radio.startTransmit(packet, 16);
+  transmissionState = radio.startTransmit(packet, 18);
   status.lora_ok = true;
   return true;
 }
@@ -114,5 +114,5 @@ void sendTelemetry() {
   packTelemetry(packet);
 
   Serial.println(F("[SX1278] Sending another packet ... "));
-  transmissionState = radio.transmit(packet, 16);
+  transmissionState = radio.transmit(packet, 18);
 }
