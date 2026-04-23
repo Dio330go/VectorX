@@ -86,6 +86,7 @@ bool initTelemetry() {
   Serial.print(F("[SX1278] Sending first packet ... "));
   uint8_t packet[16] = {};
   transmissionState = radio.startTransmit(packet, 16);
+  status.lora_ok = true;
   return true;
 }
 

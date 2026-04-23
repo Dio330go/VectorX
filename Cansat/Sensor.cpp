@@ -16,19 +16,19 @@ bool initSensors() {
 void updateSensors() {
   for(int i = 0; i < 3; i++)
   {
-    updateBMP();
+    if(status.bmp_ok) updateBMP();
     for(int i = 0; i < 100; i++)
     {
-      updateLSM();
-      // updateICM();
+      if(status.lsm_ok) updateLSM();
+      if(status.icm_ok) updateICM();
       delay(10);
       for(int i = 0; i < 10; i++)
       {
-        updateGPS();
+        if(status.gps_ok) updateGPS();
         delay(1);
       }
     }
   }
-  // logData();
-  sendTelemetry();
+  if(status.lora_ok) logData();
+  if(status.lora_ok) sendTelemetry();
 }
