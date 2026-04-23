@@ -98,7 +98,7 @@ bool initICM() {
   // float accel_rate = 1125 / (1.0 + accel_divisor); // Hz
   // uint8_t gyro_divisor = icm.getGyroRateDivisor();
   // float gyro_rate = 1100 / (1.0 + gyro_divisor); // Hz
-    FusionAhrsInitialise(&ahrs);
+  FusionAhrsInitialise(&ahrs);
 
   FusionAhrsSettings settings = {
     .convention = FusionConventionNwu,
@@ -110,7 +110,7 @@ bool initICM() {
   };
 
   FusionAhrsSetSettings(&ahrs, &settings);
-  calibrateMag();
+  // calibrateMag();
 
   status.icm_ok = true;
   return true;

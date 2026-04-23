@@ -1,10 +1,13 @@
 #include "Sensors.h"
 
+int buzzer = 26;
+
 uint32_t lastLSM = 0;
 uint32_t lastICM = 0;
 uint32_t lastLoRa = 0;
 uint32_t lastBMP = 0;
 uint32_t lastSD = 0;
+uint32_t lastbuzzer = 0; 
 
 bool initSensors() {
   bool ok = true;
@@ -15,6 +18,7 @@ bool initSensors() {
   if (!initICM()) ok = false;
   if (!initGPS()) ok = false;
   if (!initTelemetry()) ok = false;
+  pinMode(buzzer, OUTPUT);
 
   return ok;
 }
@@ -23,6 +27,10 @@ void updateSensors() {
   if (status.gps_ok) updateGPS();
 
   uint32_t now = millis();
+
+  Serial.println(sensors.gps_lat);
+  Serial.println(sensors.gps_lng);
+  Serial.println();
 
   if (status.bmp_ok && now - lastBMP >= 200) {  // example: 200 ms
     lastBMP = now;
@@ -47,5 +55,12 @@ void updateSensors() {
   if (status.lora_ok && now - lastLoRa >= 250) { // example: 250 ms
     sendTelemetry(now - lastLoRa);
     lastLoRa = now;
+  }
+  if (now - lastbuzzer >= 2000){
+    digitalWrite(buzzer, LOW);
+  }
+  if (now - lastbuzzer >= 4000){
+    digitalWrite(buzzer, HIGH);
+    lastbuzzer = 0;
   }
 }
