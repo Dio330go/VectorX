@@ -17,13 +17,9 @@ struct SensorData {
   float accel2_y = 0.0;
   float accel2_z = 0.0;
 
-  float gyro2_x = 0.0;
-  float gyro2_y = 0.0;
-  float gyro2_z = 0.0;
-
-  float mag2_x = 0.0;
-  float mag2_y = 0.0;
-  float mag2_z = 0.0;
+  float roll2 = 0.0;
+  float pitch2 = 0.0;
+  float yaw2 = 0.0;
 
   double gps_lat = 0.0;
   double gps_lng = 0.0;

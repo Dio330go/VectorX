@@ -6,19 +6,19 @@ extern "C" {
 
 Adafruit_LSM6DS3TRC lsm6ds;
 Adafruit_LIS3MDL lis3mdl;
-FusionAhrs ahrs;
+static FusionAhrs ahrs;
 
 // magnetometer hard-iron offsets + soft-iron scale (set by calibrateMag)
-float mx_offset = 0, my_offset = 0, mz_offset = 0;
-float mx_scale  = 1, my_scale  = 1, mz_scale  = 1;
+static float mx_offset = 0, my_offset = 0, mz_offset = 0;
+static float mx_scale  = 1, my_scale  = 1, mz_scale  = 1;
 
 static constexpr float FILTER_HZ    = 104.0f;
 static constexpr float DT_SECONDS   = 1.0f / FILTER_HZ;
 static constexpr float G_TO_MS2     = 9.80665f;
 
-void calibrateMag() {
+static void calibrateMag() {
   Serial.println("==============================================");
-  Serial.println("Mag calibration — rotate sensor in a slow");
+  Serial.println("Mag calibration — LIS3MDL");
   Serial.println("figure-8 covering ALL orientations for 20s.");
   Serial.println("Starting in 3 seconds...");
   Serial.println("==============================================");
@@ -115,7 +115,7 @@ bool initLSM() {
 
   FusionAhrsSetSettings(&ahrs, &settings);
 
-  calibrateMag();
+  // calibrateMag();
   status.lsm_ok = true;
   return true;
 }
@@ -132,11 +132,6 @@ void updateLSM() {
     return;
   }
 
-  // store raw-ish engineering units
-  sensors.accel1_x = accel.acceleration.x;
-  sensors.accel1_y = accel.acceleration.y;
-  sensors.accel1_z = accel.acceleration.z;
-
   // Fusion expects accelerometer in g
   const float ax = accel.acceleration.x / G_TO_MS2;
   const float ay = accel.acceleration.y / G_TO_MS2;
@@ -150,39 +145,39 @@ void updateLSM() {
   // Apply magnetometer calibration
   const float mx = (mag.magnetic.x - mx_offset) * mx_scale;
   const float my = (mag.magnetic.y - my_offset) * my_scale;
-  const float mz = (mag.magnetic.z - mz_offset) * mz_scale;
+const float mz = (mag.magnetic.z - mz_offset) * mz_scale;
 
-  const FusionVector gyroscope = {
-    .axis = { gx, gy, gz }
-  };
+const FusionVector gyroscope = {
+  .axis = { gx, gy, gz }
+};
 
-  const FusionVector accelerometer = {
-    .axis = { ax, ay, az }
-  };
+const FusionVector accelerometer = {
+  .axis = { ax, ay, az }
+};
 
-  const FusionVector magnetometer = {
-    .axis = { mx, my, mz }
-  };
+const FusionVector magnetometer = {
+  .axis = { mx, my, mz }
+};
 
-  FusionAhrsUpdate(&ahrs, gyroscope, accelerometer, magnetometer, DT_SECONDS);
+FusionAhrsUpdate(&ahrs, gyroscope, accelerometer, magnetometer, DT_SECONDS);
 
-  FusionQuaternion q = FusionAhrsGetQuaternion(&ahrs);
-  const FusionEuler euler =
-      FusionQuaternionToEuler(q);
- 
-  // Convert quaternion to rotation matrix
-  const FusionMatrix rotation = FusionQuaternionToMatrix(q);
+FusionQuaternion q = FusionAhrsGetQuaternion(&ahrs);
+const FusionEuler euler =
+    FusionQuaternionToEuler(q);
 
-  // Rotate body-frame accel into Earth/global frame
-  FusionVector accelEarth = FusionMatrixMultiply(rotation, accelerometer);
+// Convert quaternion to rotation matrix
+const FusionMatrix rotation = FusionQuaternionToMatrix(q);
 
-  accelEarth.axis.z -= 1.0f;
+// Rotate body-frame accel into Earth/global frame
+FusionVector accelEarth = FusionMatrixMultiply(rotation, accelerometer);
 
-  sensors.accel1_x = accelEarth.axis.x * G_TO_MS2;
-  sensors.accel1_y = accelEarth.axis.y * G_TO_MS2;
-  sensors.accel1_z = accelEarth.axis.z * G_TO_MS2;
+accelEarth.axis.z -= 1.0f;
 
-  sensors.roll1  = euler.angle.roll;
-  sensors.pitch1 = euler.angle.pitch;
-  sensors.yaw1   = euler.angle.yaw;
+sensors.accel1_x = accelEarth.axis.x * G_TO_MS2;
+sensors.accel1_y = accelEarth.axis.y * G_TO_MS2;
+sensors.accel1_z = accelEarth.axis.z * G_TO_MS2;
+
+sensors.roll1  = euler.angle.roll;
+sensors.pitch1 = euler.angle.pitch;
+sensors.yaw1   = euler.angle.yaw;
 }

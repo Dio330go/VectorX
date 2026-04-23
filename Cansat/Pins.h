@@ -18,7 +18,7 @@
 #define BMP_SCL 19     // 25
 
 #define ICM_SDA 18     // 24
-#define ICM_SCL 19     // 25
+#define ICM_SCL 19     // 25  
 
 #define LSM_SDA 20     // 26
 #define LSM_SCL 21     // 27

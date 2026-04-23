@@ -28,17 +28,6 @@ void updateGPS() {
     if (!GPS.parse(GPS.lastNMEA()))   // this also sets the newNMEAreceived() flag to false
       return;  // we can fail to parse a sentence in which case we should just wait for another
   }
-  if (millis() - timer > 1000) {
-    timer = millis(); // reset the timer
-    Serial.print("gps_lat = ");
-    Serial.print(sensors.gps_lat);
-    Serial.print("    gps_lng = ");
-    Serial.print(sensors.gps_lng);
-    Serial.print("    gps_satellites = ");
-    Serial.print(sensors.gps_satellites);
-    Serial.print("    gps_fix = ");
-    Serial.println(sensors.gps_fix);
-  }
 
   sensors.gps_fix = GPS.fix;
 

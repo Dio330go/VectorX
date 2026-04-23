@@ -21,26 +21,15 @@ void setup() {
   Serial.println("Initialized");
 
   if (!initSensors()) {
-    Serial.println("Something failed!");
-    while (1){};
+    if (!status.bmp_ok) Serial.println("BMP Wrong");
+    if (!status.sd_ok) Serial.println("SD Wrong");
+    if (!status.lsm_ok) Serial.println("LSM Wrong");
+    if (!status.icm_ok) Serial.println("ICM Wrong");
+    if (!status.gps_ok) Serial.println("GPS Wrong");
+    if (!status.lora_ok) Serial.println("Lora Wrong");
   }
 }
 
 void loop() {
-  // Serial.print("Ax = ");
-  // Serial.print(sensors.accel1_x);
-  // Serial.print("    Ay = ");
-  // Serial.print(sensors.accel1_y);
-  // Serial.print("    Az = ");
-  // Serial.println(sensors.accel1_z);
-
-  // Serial.print("roll = ");
-  // Serial.print(sensors.roll1);
-  // Serial.print("    pitch = ");
-  // Serial.print(sensors.pitch1);
-  // Serial.print("    yaw = ");
-  // Serial.println(sensors.yaw1);
-  // Serial.println();
-
   updateSensors();
 }
