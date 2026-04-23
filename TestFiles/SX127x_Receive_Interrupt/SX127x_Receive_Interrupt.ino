@@ -7,6 +7,8 @@
 #define LORA_NSS   17
 #define LORA_DIO0  20
 
+const float SEALEVELPRESSURE_HPA = 1013.25;
+
 SX1278 radio = new Module(LORA_NSS, LORA_DIO0, RADIOLIB_NC, RADIOLIB_NC);
 
 // flag to indicate that a packet was received
@@ -62,7 +64,7 @@ void loop() {
     int state = radio.readData(packet, 16);
     
     uint16_t pressure = (packet[0] << 8) | packet[1];
-    float pressure_f = pressure / 100.0;
+    float pressure_f = pressure / 100.0 + SEALEVELPRESSURE_HPA;
 
     int8_t temp = (int8_t)packet[2];
     float temp_f = temp / 2.0;

@@ -1,6 +1,7 @@
 #include <SPI.h>
 #include <RadioLib.h>
 #include "Telemetry.h"
+#include "Constants.h"
 
 SX1278 radio = new Module(LORA_NSS, LORA_DIO0, RADIOLIB_NC, RADIOLIB_NC);
 
@@ -19,8 +20,8 @@ float gpsToOffsetY(float lat) {
 }
 
 void packTelemetry(uint8_t* packet) {
-  uint16_t pressure = (uint16_t)(sensors.pressure * 100 + 0.5);
-  uint8_t temp       = (uint8_t)(sensors.temperature * 2);
+  uint16_t pressure = (uint16_t)((SEALEVELPRESSURE_HPA - sensors.pressure) * 100 + 0.5);
+  uint8_t temp       = (uint8_t)(sensors.temperature * 20);
 
   int16_t ax = (int16_t)(sensors.accel1_x * 100);
   int16_t ay = (int16_t)(sensors.accel1_y * 100);
@@ -108,7 +109,6 @@ void sendTelemetry() {
   radio.finishTransmit();
 
   uint8_t packet[16];
-
   packTelemetry(packet);
 
   Serial.println(F("[SX1278] Sending another packet ... "));
