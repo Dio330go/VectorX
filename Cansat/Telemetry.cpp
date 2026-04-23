@@ -21,7 +21,7 @@ float gpsToOffsetY(float lat) {
 
 void packTelemetry(uint8_t* packet) {
   uint16_t pressure = (uint16_t)((SEALEVELPRESSURE_HPA - sensors.pressure) * 100 + 0.5);
-  uint8_t temp       = (uint8_t)(sensors.temperature * 20);
+  uint8_t temp       = (uint8_t)(sensors.temperature * 5 + 0.5);
 
   int16_t ax = (int16_t)(sensors.accel1_x * 100);
   int16_t ay = (int16_t)(sensors.accel1_y * 100);

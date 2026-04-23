@@ -140,7 +140,7 @@ void setup()
   pinMode(piezo, OUTPUT);
   pinMode(led,  OUTPUT);
 
-  digitalWrite(led, HIGH);
+  digitalWrite(piezo, HIGH);
   Serial.begin(9600);
   flag = true;
   a = 4;
@@ -152,9 +152,9 @@ void loop()
 
 
   // play  next step in song
-  if (flag == true) {
-    play();
-  }
+  // if (flag == true) {
+  //   // play();
+  // }
 }
 
 void  play() {

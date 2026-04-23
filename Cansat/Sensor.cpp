@@ -20,7 +20,7 @@ void updateSensors() {
     for(int i = 0; i < 100; i++)
     {
       if(status.lsm_ok) updateLSM();
-      if(status.icm_ok) updateICM();
+      if(status.icm_ok) updateICM();z
       delay(10);
       for(int i = 0; i < 10; i++)
       {
