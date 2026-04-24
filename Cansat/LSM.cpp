@@ -9,8 +9,8 @@ Adafruit_LIS3MDL lis3mdl;
 static FusionAhrs ahrs;
 
 // magnetometer hard-iron offsets + soft-iron scale (set by calibrateMag)
-static float mx_offset = 0, my_offset = 0, mz_offset = 0;
-static float mx_scale  = 1, my_scale  = 1, mz_scale  = 1;
+static float mx_offset = -23.39, my_offset = 30.04, mz_offset = -114.21;
+static float mx_scale  = 0.98, my_scale  = 0.96, mz_scale  = 1.06;
 
 static constexpr float FILTER_HZ    = 104.0f;
 static constexpr float DT_SECONDS   = 1.0f / FILTER_HZ;

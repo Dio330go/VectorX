@@ -9,8 +9,8 @@ static FusionAhrs ahrs;
 // uint16_t measurement_delay_us = 65535; // Delay between measurements for testing
 
 // magnetometer hard-iron offsets + soft-iron scale (set by calibrateMag)
-static float mx_offset = 0, my_offset = 0, mz_offset = 0;
-static float mx_scale  = 1, my_scale  = 1, mz_scale  = 1;
+static float mx_offset = -27.98, my_offset = -103.97, mz_offset = 3.23;
+static float mx_scale  = 1.20, my_scale  = 0.95, mz_scale  = 0.89;
 
 static constexpr float FILTER_HZ    = 104.0f;
 static constexpr float DT_SECONDS   = 1.0f / FILTER_HZ;

@@ -15,8 +15,6 @@ bool initLogger() {
     return false;
   }
 
-  SD.remove("/data.csv");
-
   File file = SD.open("/data.csv", FILE_WRITE);
 
   if (file) {

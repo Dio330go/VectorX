@@ -16,7 +16,7 @@ bool initSensors() {
   if (!initLogger()) ok = false;
   if (!initLSM()) ok = false;
   if (!initICM()) ok = false;
-  if (!initGPS()) ok = false;
+  // if (!initGPS()) ok = false;
   if (!initTelemetry()) ok = false;
   pinMode(buzzer, OUTPUT);
 
@@ -24,13 +24,13 @@ bool initSensors() {
 }
 
 void updateSensors() {
-  if (status.gps_ok) updateGPS();
+  // if (status.gps_ok) updateGPS();
 
   uint32_t now = millis();
 
-  Serial.println(sensors.gps_lat);
-  Serial.println(sensors.gps_lng);
-  Serial.println();
+  // Serial.println(sensors.gps_lat);
+  // Serial.println(sensors.gps_lng);
+  // Serial.println();
 
   if (status.bmp_ok && now - lastBMP >= 200) {  // example: 200 ms
     lastBMP = now;
@@ -49,6 +49,7 @@ void updateSensors() {
 
   if (status.sd_ok && now - lastSD >= 100) {  // example: 100 ms
     logData(now - lastSD);
+    Serial.println(now - lastSD);
     lastSD = now;
   }
 
@@ -56,11 +57,11 @@ void updateSensors() {
     sendTelemetry(now - lastLoRa);
     lastLoRa = now;
   }
-  if (now - lastbuzzer >= 2000){
-    digitalWrite(buzzer, LOW);
-  }
-  if (now - lastbuzzer >= 4000){
-    digitalWrite(buzzer, HIGH);
-    lastbuzzer = 0;
-  }
+  // if (now - lastbuzzer >= 2000){
+  //   digitalWrite(buzzer, LOW);
+  // }
+  // if (now - lastbuzzer >= 4000){
+  //   digitalWrite(buzzer, HIGH);
+  //   lastbuzzer = 0;
+  // }
 }

@@ -9,14 +9,15 @@ volatile bool transmittedFlag = false;
 int transmissionState = RADIOLIB_ERR_NONE;
 int count = 0;
 
-const float LAUNCH_LAT = 38.7169;
-const float LAUNCH_LON = -9.1399;
+const float LAUNCH_LAT = 39.2087835;
+const float LAUNCH_LON = -8.0558733;
+const int scale = 10000;
 
-float gpsToOffsetX(float lon) {
-    return (lon - LAUNCH_LON) * cos(LAUNCH_LAT * PI / 180.0) * 6371000.0;
+float gpslon(float lon) {
+    return (lon - LAUNCH_LON);
 }
-float gpsToOffsetY(float lat) {
-    return (lat - LAUNCH_LAT) * 6371000.0 * (PI / 180.0);
+float gpslat(float lat) {
+    return (lat - LAUNCH_LAT);
 }
 
 void packTelemetry(uint8_t* packet, int ms) {
@@ -31,8 +32,8 @@ void packTelemetry(uint8_t* packet, int ms) {
   int8_t angY = (int8_t)(sensors.pitch1);
   int8_t angZ = (int8_t)(sensors.yaw1);
 
-  int16_t gpsX = (int16_t)(gpsToOffsetX(sensors.gps_lng) * 10);
-  int16_t gpsY = (int16_t)(gpsToOffsetY(sensors.gps_lat) * 10);
+  int16_t gpsX = (int16_t)(gpslon(sensors.gps_lng/100) * scale);
+  int16_t gpsY = (int16_t)(gpslat(sensors.gps_lat/100) * scale);
 
   int16_t mili = (int16_t)(ms);
 
