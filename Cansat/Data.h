@@ -21,8 +21,8 @@ struct SensorData {
   float pitch2 = 0.0;
   float yaw2 = 0.0;
 
-  double gps_lat = 0.0;
-  double gps_lng = 0.0;
+  float gps_lat = 0.0;
+  float gps_lng = 0.0;
   float gps_alt = 0.0;
   int gps_satellites = 0;
   bool gps_fix = false;

@@ -57,11 +57,11 @@ void updateSensors() {
     sendTelemetry(now - lastLoRa);
     lastLoRa = now;
   }
-  // if (now - lastbuzzer >= 2000){
-  //   digitalWrite(buzzer, LOW);
-  // }
-  // if (now - lastbuzzer >= 4000){
-  //   digitalWrite(buzzer, HIGH);
-  //   lastbuzzer = 0;
-  // }
+  if (now - lastbuzzer >= 2000){
+    digitalWrite(buzzer, LOW);
+  }
+  if (now - lastbuzzer >= 4000){
+    digitalWrite(buzzer, HIGH);
+    lastbuzzer = 0;
+  }
 }

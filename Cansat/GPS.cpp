@@ -70,6 +70,7 @@ void updateGPS()                     // run over and over again
     {
     sensors.gps_lat = GPS.latitude;
     sensors.gps_lng = GPS.longitude;
+    sensors.gps_alt = GPS.altitude;
     // Serial.println(sensors.gps_lat);
     // Serial.println(sensors.gps_lng);
     // Serial.println();

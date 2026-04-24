@@ -55,7 +55,7 @@ void logData(int ms) {
 
     data.print(ms); data.print(",");
 
-    data.println(sensors.gps_fix ? 1 : 0); // bool as 0/1
+    data.println(sensors.gps_alt);
     data.close();
   }
 }

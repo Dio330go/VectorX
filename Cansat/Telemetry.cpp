@@ -9,19 +9,19 @@ volatile bool transmittedFlag = false;
 int transmissionState = RADIOLIB_ERR_NONE;
 int count = 0;
 
-const float LAUNCH_LAT = 39.2087835;
-const float LAUNCH_LON = -8.0558733;
-const int scale = 10000;
+// const float LAUNCH_LAT = 3920.87835;
+// const float LAUNCH_LON = -805.58733;
+const int scale = 1000;
 
-float gpslon(float lon) {
-    return (lon - LAUNCH_LON);
-}
-float gpslat(float lat) {
-    return (lat - LAUNCH_LAT);
-}
+// float gpslon(float lon) {
+//     return (lon - LAUNCH_LON);
+// }
+// float gpslat(float lat) {
+//     return (lat - LAUNCH_LAT);
+// }
 
 void packTelemetry(uint8_t* packet, int ms) {
-  uint16_t pressure = (uint16_t)((SEALEVELPRESSURE_HPA - sensors.pressure) * 100 + 0.5);
+  int16_t pressure = (uint16_t)((SEALEVELPRESSURE_HPA - sensors.pressure) * 10 + 0.5);
   uint8_t temp       = (uint8_t)(sensors.temperature * 5 + 0.5);
 
   int16_t ax = (int16_t)(sensors.accel1_x * 100);
@@ -32,8 +32,11 @@ void packTelemetry(uint8_t* packet, int ms) {
   int8_t angY = (int8_t)(sensors.pitch1);
   int8_t angZ = (int8_t)(sensors.yaw1);
 
-  int16_t gpsX = (int16_t)(gpslon(sensors.gps_lng/100) * scale);
-  int16_t gpsY = (int16_t)(gpslat(sensors.gps_lat/100) * scale);
+  int32_t gpsX = (int32_t)(sensors.gps_lng * scale);
+  int32_t gpsY = (int32_t)(sensors.gps_lat * scale);
+  Serial.println(gpsX);
+  Serial.println(gpsY);
+  Serial.println();
 
   int16_t mili = (int16_t)(ms);
 
@@ -55,14 +58,18 @@ void packTelemetry(uint8_t* packet, int ms) {
   packet[10] = (uint8_t)angY;
   packet[11] = (uint8_t)angZ;
 
-  packet[12] = (gpsX >> 8) & 0xFF;
-  packet[13] = gpsX & 0xFF;
+  packet[12] = (gpsX >> 24) & 0xFF;
+  packet[13] = (gpsX >> 16) & 0xFF;
+  packet[14] = (gpsX >> 8) & 0xFF;
+  packet[15] = gpsX & 0xFF;
 
-  packet[14] = (gpsY >> 8) & 0xFF;
-  packet[15] = gpsY & 0xFF;
+  packet[16] = (gpsY >> 24) & 0xFF;
+  packet[17] = (gpsY >> 16) & 0xFF;
+  packet[18] = (gpsY >> 8) & 0xFF;
+  packet[19] = gpsY & 0xFF;
 
-  packet[16] = (mili >> 8) & 0xFF;
-  packet[17] = mili & 0xFF;
+  packet[20] = (mili >> 8) & 0xFF;
+  packet[21] = mili & 0xFF;
 }
 
 void setFlag() {
@@ -93,8 +100,8 @@ bool initTelemetry() {
   radio.setPacketSentAction(setFlag);
 
   Serial.print(F("[SX1278] Sending first packet ... "));
-  uint8_t packet[18] = {};
-  transmissionState = radio.startTransmit(packet, 18);
+  uint8_t packet[22] = {};
+  transmissionState = radio.startTransmit(packet, 22);
   status.lora_ok = true;
   return true;
 }
@@ -116,9 +123,9 @@ void sendTelemetry(int ms) {
 
   radio.finishTransmit();
 
-  uint8_t packet[18];
+  uint8_t packet[22];
   packTelemetry(packet, ms);
 
   Serial.println(F("[SX1278] Sending another packet ... "));
-  transmissionState = radio.transmit(packet, 18);
+  transmissionState = radio.transmit(packet, 22);
 }

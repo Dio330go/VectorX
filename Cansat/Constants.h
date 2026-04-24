@@ -3,7 +3,7 @@
 const float LAUNCH_ACCEL_THRESHOLD = 12.0;
 const float DESCENT_DROP_THRESHOLD = 5.0;
 const float LANDING_ALTITUDE_DELTA = 1.0;
-const float SEALEVELPRESSURE_HPA = 1013.25;
+const float SEALEVELPRESSURE_HPA = 1003.50;
 
 const unsigned long TELEMETRY_INTERVAL = 1000;
 const unsigned long LOG_INTERVAL = 500;
